@@ -1,20 +1,17 @@
+class Item:
+    def __init__(self, sku: str, price: int):
+        self.sku = sku
+        self.price = price
+
+
+class Inventory:
+    def __init__(self):
+        self.items = {}
+
+    def add_item(self, item: Item):
+        self.items[item.sku] = item
 
 class CheckoutSolution:
-
-    class Item:
-        def __init__(self, sku: str, price: int):
-            self.sku = sku
-            self.price = price
-
-
-    class Inventory:
-        def __init__(self):
-            self.items = {}
-
-        # I would add a type hint for item, but I can't work out why python
-        def add_item(self, item):
-            self.items[item.sku] = item
-
 
     # Not needed just yet, thinking ahead a bit
     # class Offer:
@@ -22,6 +19,14 @@ class CheckoutSolution:
     #         self.item = item
     #         self.quantity = quantity
     #         self.price = price
+
+    def __init__(self):
+        # Build our product inventory
+        self.inventory = Inventory()
+        self.inventory.add_item(Item("A", 50))
+        self.inventory.add_item(Item("B", 30))
+        self.inventory.add_item(Item("C", 20))
+        self.inventory.add_item(Item("D", 15))
 
 
     # skus = unicode string
@@ -33,9 +38,4 @@ class CheckoutSolution:
         # forward."
         # So to get feedback from "users", I need to "deploy to production"?
 
-        raise NotImplementedError()
-
-
-
-
-
+        return self.inventory.items[skus].price
