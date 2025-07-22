@@ -57,7 +57,7 @@ class CheckoutSolution:
 
         total = 0
         for sku, quantity in basket.items():
-            item_price = self.catalogue.items[sku].price
+            item_price = self.catalogue.items.get(sku, 0).price
             sku_total = item_price * quantity
 
             # Apply any offers to this SKU by applying the discount
@@ -68,3 +68,4 @@ class CheckoutSolution:
             total += sku_total
 
         return total
+

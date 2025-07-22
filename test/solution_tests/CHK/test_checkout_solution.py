@@ -13,6 +13,9 @@ class TestCheckout:
     def test_one_item(self, sku, price):
         assert CheckoutSolution().checkout(sku) == price
 
+    def test_unknown_item(self):
+        assert CheckoutSolution().checkout("x") == 0
+
     def test_multiple_items(self):
         assert CheckoutSolution().checkout("ABCD") == 115
 
@@ -20,7 +23,7 @@ class TestCheckout:
         # 130 + 30 + 20 + 15
         assert CheckoutSolution().checkout("ABCADA") == 195
 
-    def test_offers(self):
+    def test_offers_multiple(self):
         # 2 x A = 100
         # 4 x B = (45 * 2) = 90
         # 1 x C = 20
