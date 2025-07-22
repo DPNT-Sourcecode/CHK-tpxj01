@@ -1,3 +1,5 @@
+import math
+
 class Item:
     def __init__(self, sku: str, price: int):
         self.sku = sku
@@ -55,16 +57,14 @@ class CheckoutSolution:
 
         total = 0
         for sku, quantity in basket.items():
-            sku_total = self.catalogue.items[sku].price * quantity
+            item_price = self.catalogue.items[sku].price
+            sku_total = item_price * quantity
 
             # Apply any offers to this SKU by applying the discount
             if self.offers.get(sku):
-                sku_total -= 
+                discount = (item_price * self.offers[sku].quantity) - self.offers[sku].price
+                sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
 
             total += sku_total
 
         return total
-
-
-
-
