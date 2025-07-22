@@ -57,15 +57,18 @@ class CheckoutSolution:
 
         total = 0
         for sku, quantity in basket.items():
-            item_price = self.catalogue.items.get(sku, 0).price
-            sku_total = item_price * quantity
+            catalog_item = self.catalogue.items.get(sku)
+            if catalog_item:
+                item_price = catalog_item.price
+                sku_total = item_price * quantity
 
-            # Apply any offers to this SKU by applying the discount
-            if self.offers.get(sku):
-                discount = (item_price * self.offers[sku].quantity) - self.offers[sku].price
-                sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
+                # Apply any offers to this SKU by applying the discount
+                if self.offers.get(sku):
+                    discount = (item_price * self.offers[sku].quantity) - self.offers[sku].price
+                    sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
 
-            total += sku_total
+                total += sku_total
 
         return total
+
 
