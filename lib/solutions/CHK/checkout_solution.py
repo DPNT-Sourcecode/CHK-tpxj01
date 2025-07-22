@@ -22,10 +22,19 @@ class CheckoutSolution:
     def __init__(self):
         # Build our product catalogue
         self.catalogue = Catalogue()
-        self.catalogue.add_item(Item("A", 50))
-        self.catalogue.add_item(Item("B", 30))
-        self.catalogue.add_item(Item("C", 20))
-        self.catalogue.add_item(Item("D", 15))
+        a = Item("A", 50)
+        b = Item("B", 30)
+        c = Item("C", 20)
+        d = Item("D", 15)
+        self.catalogue.add_item(a)
+        self.catalogue.add_item(b)
+        self.catalogue.add_item(c)
+        self.catalogue.add_item(d)
+
+        # I have a feeling offers could get quite complex, so I'll start with something simple
+        self.offers = []
+        self.offers.append(Offer(a, 3, 130))
+        self.offers.append(Offer(b, 2, 45))
 
 
     # skus = unicode string
@@ -42,4 +51,5 @@ class CheckoutSolution:
         for sku in skus:
             total += self.catalogue.items[sku].price
         return total
+
 
