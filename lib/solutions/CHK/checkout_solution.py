@@ -32,9 +32,9 @@ class CheckoutSolution:
         self.catalogue.add_item(d)
 
         # I have a feeling offers could get quite complex, so I'll start with something simple
-        self.offers = []
-        self.offers.append(Offer(a, 3, 130))
-        self.offers.append(Offer(b, 2, 45))
+        self.offers = {}
+        self.offers[a.sku] = Offer(a, 3, 130)
+        self.offers[b.sku] = Offer(b, 2, 45)
 
 
     # skus = unicode string
@@ -55,11 +55,16 @@ class CheckoutSolution:
 
         total = 0
         for sku, quantity in basket.items():
-            total += self.catalogue.items[sku].price * quantity
+            sku_total = self.catalogue.items[sku].price * quantity
 
-        # TODO Apply any offers by applying the discount
+            # Apply any offers to this SKU by applying the discount
+            if self.offers.get(sku):
+                sku_total -= 
+
+            total += sku_total
 
         return total
+
 
 
 
