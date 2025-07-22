@@ -14,7 +14,7 @@ class TestCheckout:
         assert CheckoutSolution().checkout(sku) == price
 
     def test_unknown_item(self):
-        assert CheckoutSolution().checkout("x") == 0
+        assert CheckoutSolution().checkout("X") == -1
 
     def test_invalid_sku(self):
         assert CheckoutSolution().checkout("-") == -1
@@ -35,4 +35,5 @@ class TestCheckout:
         # 1 x C = 20
         # 1 x D = 15
         assert CheckoutSolution().checkout("ABCABDBB") == 225
+
 

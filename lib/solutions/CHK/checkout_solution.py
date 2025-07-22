@@ -53,26 +53,26 @@ class CheckoutSolution:
         basket = {}
 
         for sku in skus:
-            if not sku.isalpha():
-                return -1
-
             basket[sku] = basket.get(sku, 0) + 1
 
         total = 0
         for sku, quantity in basket.items():
             catalog_item = self.catalogue.items.get(sku)
-            if catalog_item:
-                item_price = catalog_item.price
-                sku_total = item_price * quantity
+            if not catalog_item:
+                return -1
 
-                # Apply any offers to this SKU by applying the discount
-                if self.offers.get(sku):
-                    discount = (item_price * self.offers[sku].quantity) - self.offers[sku].price
-                    sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
+            item_price = catalog_item.price
+            sku_total = item_price * quantity
 
-                total += sku_total
+            # Apply any offers to this SKU by applying the discount
+            if self.offers.get(sku):
+                discount = (item_price * self.offers[sku].quantity) - self.offers[sku].price
+                sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
+
+            total += sku_total
 
         return total
+
 
 
 
