@@ -53,7 +53,9 @@ class CheckoutSolution:
         basket = {}
 
         for sku in skus:
-            
+            if not sku.isalpha():
+                return -1
+
             basket[sku] = basket.get(sku, 0) + 1
 
         total = 0
@@ -71,6 +73,7 @@ class CheckoutSolution:
                 total += sku_total
 
         return total
+
 
 
 
