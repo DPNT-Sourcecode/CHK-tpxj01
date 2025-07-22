@@ -47,9 +47,19 @@ class CheckoutSolution:
         # forward."
         # So to get feedback from "users", I need to "deploy to production"?
 
-        total = 0
+        # Map of sku to quantity
+        basket = {}
+
         for sku in skus:
-            total += self.catalogue.items[sku].price
+            basket[sku] += 1
+
+        total = 0
+        for sku, quantity in basket.items():
+            total += self.catalogue.items[sku].price * quantity
+
+        # TODO Apply any offers by applying the discount
+
         return total
+
 
 
