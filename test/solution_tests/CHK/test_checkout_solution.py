@@ -10,5 +10,8 @@ class TestCheckout:
         ("C", 20),
         ("D", 15),
     ])
-    def test_checkout__one_item(self, sku, price):
+    def test_one_item(self, sku, price):
         assert CheckoutSolution().checkout(sku) == price
+
+    def test_multiple_items(self):
+        assert CheckoutSolution().checkout("ABCD") == 115
