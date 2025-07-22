@@ -12,7 +12,8 @@ class CheckoutSolution:
 
         # "Sometimes, the requirements are unclear. Getting feedback from your users may be the key to moving
         # forward."
-        # 
+        # So to get feedback from "users", I need to "deploy to production"?
 
         raise NotImplementedError()
+
 
