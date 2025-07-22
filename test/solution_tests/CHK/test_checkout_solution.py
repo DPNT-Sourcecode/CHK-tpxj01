@@ -16,6 +16,6 @@ class TestCheckout:
     def test_multiple_items(self):
         assert CheckoutSolution().checkout("ABCD") == 115
 
-    # def test_offers(self):
-    #     # 130 + 30 + 20 + 15
-    #     assert CheckoutSolution().checkout("ABCADA") == 195
+    def test_offers(self):
+        # 130 + 30 + 20 + 15
+        assert CheckoutSolution().checkout("ABCADA") == 195
