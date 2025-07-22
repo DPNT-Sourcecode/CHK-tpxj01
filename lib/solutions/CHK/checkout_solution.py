@@ -7,6 +7,14 @@ class CheckoutSolution:
             self.price = price
 
 
+    class Inventory:
+        def __init__(self):
+            self.items = {}
+
+        def add_item(self, item: Item):
+            self.items[item.sku] = item
+
+
     # Not needed just yet, thinking ahead a bit
     # class Offer:
     #     def __init__(self, item: CheckoutSolution.Item, quantity: int, price: int):
@@ -25,6 +33,7 @@ class CheckoutSolution:
         # So to get feedback from "users", I need to "deploy to production"?
 
         raise NotImplementedError()
+
 
 
 
