@@ -11,7 +11,8 @@ class CheckoutSolution:
         def __init__(self):
             self.items = {}
 
-        def add_item(self, item: Item):
+        # I would add a type hint for item, but I can't work out why python
+        def add_item(self, item):
             self.items[item.sku] = item
 
 
@@ -33,6 +34,7 @@ class CheckoutSolution:
         # So to get feedback from "users", I need to "deploy to production"?
 
         raise NotImplementedError()
+
 
 
 
