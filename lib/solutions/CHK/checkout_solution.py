@@ -72,8 +72,3 @@ class CheckoutSolution:
             total += sku_total
 
         return total
-
-
-
-
-

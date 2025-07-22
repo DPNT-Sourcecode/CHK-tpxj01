@@ -35,5 +35,3 @@ class TestCheckout:
         # 1 x C = 20
         # 1 x D = 15
         assert CheckoutSolution().checkout("ABCABDBB") == 225
-
-
