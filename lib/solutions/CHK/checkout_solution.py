@@ -17,6 +17,9 @@ class Offer:
     def __init__(self, item: Item):
         self.item = item
 
+    def get_discount(self) -> int:
+        raise NotImplementedError
+
 class QuantityDiscountOffer(Offer):
 
     def __init__(self, item: Item, quantity: int, price: int):
@@ -24,11 +27,12 @@ class QuantityDiscountOffer(Offer):
         self.quantity = quantity
         self.price = price
 
-    def get_discount(self, basket) -> int:
+    def get_discount(self) -> int:
         return (self.item.price * self.quantity) - self.price
 
 
-class 
+class OtherItemFreeOffer(Offer):
+    pass # TODO
 
 
 class CheckoutSolution:
@@ -46,8 +50,8 @@ class CheckoutSolution:
         self.catalogue.add_item(d)
 
         self.offers = {}
-        self.offers[a.sku] = [Offer(a, 5, 200), Offer(a, 3, 130)]
-        self.offers[b.sku] = [Offer(b, 2, 45)]
+        self.offers[a.sku] = [QuantityDiscountOffer(a, 5, 200), QuantityDiscountOffer(a, 3, 130)]
+        self.offers[b.sku] = [QuantityDiscountOffer(b, 2, 45)]
 
 
     # skus = unicode string
@@ -69,10 +73,12 @@ class CheckoutSolution:
 
             # Apply any offers to this SKU by applying the discount
             if self.offers.get(sku):
-                discount = (item_price * self.offers[sku].quantity) - self.offers[sku].price
-                sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
+                for offer in self.offers[sku]:
+                    discount = offer.get_discount()
+                    sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
 
             total += sku_total
 
         return total
+
 
