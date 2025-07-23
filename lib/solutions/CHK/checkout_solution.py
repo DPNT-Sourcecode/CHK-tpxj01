@@ -73,12 +73,16 @@ class CheckoutSolution:
 
             # Apply any offers to this SKU by applying the discount
             if self.offers.get(sku):
+                remaining_quantity = quantity
                 for offer in self.offers[sku]:
                     discount = offer.get_discount()
-                    sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
+                    quantity_offer_applied_to = math.floor(remaining_quantity / offer.quantity)
+                    sku_total -= discount * quantity_offer_applied_to
+                    remaining_quantity -= quantity_offer_applied_to
 
             total += sku_total
 
         return total
+
 
 
