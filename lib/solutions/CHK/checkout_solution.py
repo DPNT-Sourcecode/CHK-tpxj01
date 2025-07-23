@@ -17,7 +17,7 @@ class Offer:
     def __init__(self, item: Item):
         self.item = item
 
-    def get_discount(self) -> int:
+    def get_discount(self, basket) -> int:
         raise NotImplementedError
 
 class QuantityDiscountOffer(Offer):
@@ -27,12 +27,18 @@ class QuantityDiscountOffer(Offer):
         self.quantity = quantity
         self.price = price
 
-    def get_discount(self) -> int:
+    def get_discount(self, basket) -> int:
         return (self.item.price * self.quantity) - self.price
 
 
 class OtherItemFreeOffer(Offer):
-    pass # TODO
+    def __init__(self, item: Item, quantity: int, free_item_sku: str):
+        super().__init__(item)
+        self.quantity = quantity
+        self.free_item_sku = free_item_sku
+
+    def get_discount(self, basket) -> int:
+        pass
 
 
 class CheckoutSolution:
@@ -44,14 +50,17 @@ class CheckoutSolution:
         b = Item("B", 30)
         c = Item("C", 20)
         d = Item("D", 15)
+        e = Item("E", 40)
         self.catalogue.add_item(a)
         self.catalogue.add_item(b)
         self.catalogue.add_item(c)
         self.catalogue.add_item(d)
+        self.catalogue.add_item(e)
 
         self.offers = {}
         self.offers[a.sku] = [QuantityDiscountOffer(a, 5, 200), QuantityDiscountOffer(a, 3, 130)]
         self.offers[b.sku] = [QuantityDiscountOffer(b, 2, 45)]
+        self.offers[e.sku] = [OtherItemFreeOffer(e, )]
 
 
     # skus = unicode string
@@ -75,7 +84,7 @@ class CheckoutSolution:
             if self.offers.get(sku):
                 remaining_quantity = quantity
                 for offer in self.offers[sku]:
-                    discount = offer.get_discount()
+                    discount = offer.get_discount(basket)
                     num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
                     sku_total -= (discount * num_times_to_apply_discount)
                     remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
@@ -83,6 +92,7 @@ class CheckoutSolution:
             total += sku_total
 
         return total
+
 
 
 
