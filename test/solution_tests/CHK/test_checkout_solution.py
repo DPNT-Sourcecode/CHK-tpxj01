@@ -41,3 +41,5 @@ class TestCheckout:
         # 1 x B = 30
         # 1 x C = 20
         assert CheckoutSolution().checkout("AABACAAAAAA") == 430
+        # 200 + 200 + 200 + 130 + 50
+        assert CheckoutSolution().checkout("AAAAAAAAAAAAAAAAAAA") == 780
