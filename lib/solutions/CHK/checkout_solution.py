@@ -32,10 +32,10 @@ class QuantityDiscountOffer(Offer):
 
 
 class OtherItemFreeOffer(Offer):
-    def __init__(self, item: Item, quantity: int, free_item_sku: str):
+    def __init__(self, item: Item, quantity: int, free_item: Item):
         super().__init__(item)
         self.quantity = quantity
-        self.free_item_sku = free_item_sku
+        self.free_item = free_item
 
     def get_discount(self, basket) -> int:
         pass
@@ -60,7 +60,7 @@ class CheckoutSolution:
         self.offers = {}
         self.offers[a.sku] = [QuantityDiscountOffer(a, 5, 200), QuantityDiscountOffer(a, 3, 130)]
         self.offers[b.sku] = [QuantityDiscountOffer(b, 2, 45)]
-        self.offers[e.sku] = [OtherItemFreeOffer(e, )]
+        self.offers[e.sku] = [OtherItemFreeOffer(e, 2, b)]
 
 
     # skus = unicode string
