@@ -76,15 +76,14 @@ class CheckoutSolution:
                 remaining_quantity = quantity
                 for offer in self.offers[sku]:
                     discount = offer.get_discount()
-                    print(f"applying discount {discount}")
-                    quantity_offer_applied_to = math.floor(remaining_quantity / offer.quantity)
-                    print(f"applying discount to quantity {quantity_offer_applied_to}")
-                    sku_total -= (discount * quantity_offer_applied_to)
-                    remaining_quantity -= quantity_offer_applied_to
+                    num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
+                    sku_total -= (discount * num_times_to_apply_discount)
+                    remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
 
             total += sku_total
 
         return total
+
 
 
 
