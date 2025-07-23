@@ -38,7 +38,7 @@ class OtherItemFreeOffer(Offer):
         self.free_item = free_item
 
     def get_discount(self, basket) -> int:
-        pass
+        return 0 # TODO
 
 
 class CheckoutSolution:
