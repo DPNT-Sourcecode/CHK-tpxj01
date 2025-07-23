@@ -33,10 +33,9 @@ class CheckoutSolution:
         self.catalogue.add_item(c)
         self.catalogue.add_item(d)
 
-        # I have a feeling offers could get quite complex, so I'll start with something simple
         self.offers = {}
-        self.offers[a.sku] = Offer(a, 3, 130)
-        self.offers[b.sku] = Offer(b, 2, 45)
+        self.offers[a.sku] = [Offer(a, 5, 200), Offer(a, 3, 130)]
+        self.offers[b.sku] = [Offer(b, 2, 45)]
 
 
     # skus = unicode string
@@ -64,3 +63,4 @@ class CheckoutSolution:
             total += sku_total
 
         return total
+
