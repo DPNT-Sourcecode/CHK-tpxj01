@@ -19,6 +19,8 @@ class Offer:
         self.quantity = quantity
         self.price = price
 
+
+
 class CheckoutSolution:
 
     def __init__(self):
@@ -63,4 +65,5 @@ class CheckoutSolution:
             total += sku_total
 
         return total
+
 
