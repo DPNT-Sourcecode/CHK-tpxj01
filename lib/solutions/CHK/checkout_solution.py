@@ -24,9 +24,11 @@ class QuantityDiscountOffer(Offer):
         self.quantity = quantity
         self.price = price
 
-    def get_discount(self, basket, quantity: int, price: int) -> int:
-        discount = (self.item.price * self.quantity) - self.price
-        sku_total -= (discount * math.floor(quantity / self.offers[sku].quantity))
+    def get_discount(self, basket) -> int:
+        return (self.item.price * self.quantity) - self.price
+
+
+class 
 
 
 class CheckoutSolution:
@@ -73,3 +75,4 @@ class CheckoutSolution:
             total += sku_total
 
         return total
+
