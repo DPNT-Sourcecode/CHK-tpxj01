@@ -14,11 +14,17 @@ class Catalogue:
         self.items[item.sku] = item
 
 class Offer:
-    def __init__(self, item: Item, quantity: int, price: int):
+    def __init__(self, item: Item):
         self.item = item
+
+class QuantityDiscountOffer(Offer):
+
+    def __init__(self, item: Item, quantity: int, price: int):
+        super().__init__(item)
         self.quantity = quantity
         self.price = price
 
+    def get_discount(self, basket, quantity, price):
 
 
 class CheckoutSolution:
@@ -65,5 +71,6 @@ class CheckoutSolution:
             total += sku_total
 
         return total
+
 
 
