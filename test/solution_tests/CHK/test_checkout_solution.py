@@ -69,5 +69,24 @@ class TestCheckout:
 
 
     def test_all_of_the_offers(self):
+        # I'm a bit confused. I have two test failures:
+        # Result is: FAILED
+        # Some requests have failed (2/141). Here are some of them:
+        #
+        # Test: CHK_R4_139 | Method: checkout | Params: ["ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"]
+        # Assertion: equals
+        # Expected: 1880
+        # Actual:   1835
+        #
+        # ----------------------------------------
+        #
+        # Test: CHK_R4_140 | Method: checkout | Params: ["LGCKAQXFOSKZGIWHNRNDITVBUUEOZXPYAVFDEPTBMQLYJRSMJCWH"]
+        # Assertion: equals
+        # Expected: 1880
+        # Actual:   1835
+        #
+        # I have copied and pasted the params and expected values into the assertions below, and the tests pass.
+        # Yet for some reason they fail when ran on the server. Did my code not "upload" to the server correctly?
+        # I don't know how to debug this without getting more time penalties.
         assert CheckoutSolution().checkout("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ") == 1880
         assert CheckoutSolution().checkout("LGCKAQXFOSKZGIWHNRNDITVBUUEOZXPYAVFDEPTBMQLYJRSMJCWH") == 1880
