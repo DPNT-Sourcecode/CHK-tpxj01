@@ -17,9 +17,6 @@ class Offer:
     def __init__(self, item: Item):
         self.item = item
 
-    def get_sku(self):
-        return self.item.sku
-
     def get_discount(self) -> int:
         raise NotImplementedError
 
@@ -46,6 +43,13 @@ class QuantityDiscountOffer(Offer):
         basket[self.item.sku] -= self.quantity
         return self.price
 
+
+class MultipleItemQuantityDiscount(Offer):
+
+    def __init__(self, items: list(Item), quantity: int, price: int):
+        super().__init__(item)
+        self.quantity = quantity
+        self.price = price
 
 class OtherItemFreeOffer(Offer):
     def __init__(self, item: Item, quantity: int, free_item: Item):
@@ -212,4 +216,5 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
