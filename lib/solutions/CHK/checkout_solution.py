@@ -36,18 +36,6 @@ class QuantityDiscountOffer(Offer):
         self.quantity = quantity
         self.price = price
 
-    # Alternative approach
-
-    # def apply_to(self, basket) -> int:
-    #         item_quantity = basket[self.item.sku]
-    #     remaining_quantity = item_quantity
-    #     for offer_quantity, offer_price in self.quantity_prices:
-    #         num_times_to_apply_discount = math.floor(remaining_quantity / offer_quantity)
-    #         # sku_total -= (discount * num_times_to_apply_discount)
-    #         # remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
-    #
-    #     return (self.item.price * self.quantity) - self.price
-
     def get_discount(self) -> int:
         return (self.item.price * self.quantity) - self.price
 
@@ -110,9 +98,9 @@ class CheckoutSolution:
 
     # skus = unicode string
     def checkout(self, skus):
-        # Map of sku to quantity
-        basket = {}
 
+        # Populate our basket as map of sku to quantity
+        basket = {}
         for sku in skus:
             basket[sku] = basket.get(sku, 0) + 1
 
@@ -134,20 +122,6 @@ class CheckoutSolution:
                 return -1
 
             total += catalog_item.price * quantity
-
-            # # Apply any offers to this SKU by applying the discount
-            # if self.offers.get(sku):
-            #     remaining_quantity = quantity
-            #     for offer in self.offers[sku]:
-            #         discount = offer.get_discount(basket)
-            #         num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
-            #         sku_total -= (discount * num_times_to_apply_discount)
-            #         remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
-            #
-            # total += sku_total
-
-
-
 
         return total
 

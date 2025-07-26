@@ -44,3 +44,8 @@ class TestCheckout:
         # 1A + 2E      + 1B  (one B deducted)
         # 50 + 40 + 40 + 30
         assert CheckoutSolution().checkout("AEBEB") == 160
+
+    def test_free_item_and_quantity_discount_offer(self):
+        # 2E      + 2B
+        # 40 + 40 + 45
+        assert CheckoutSolution().checkout("EEBBB") == 125
