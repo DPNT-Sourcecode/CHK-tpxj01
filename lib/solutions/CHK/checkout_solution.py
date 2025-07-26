@@ -66,8 +66,10 @@ class MultipleItemQuantityDiscount(Offer):
         items_to_use = []
         for item in self.items:
             if basket.get(item.sku):
+                print(f"found {basket.get(item.sku)} {item.sku} in basket")
                 while len(items_to_use) < self.quantity:
                     spaces_left = self.quantity - len(items_to_use)
+                    print(f"{spaces_left} spaces left")
                     num_items_to_append = min(basket[item.sku], spaces_left)
                     for _ in range(num_items_to_append):
                         items_to_use.append(item)
@@ -210,7 +212,8 @@ class CheckoutSolution:
                 self.catalogue.get_item("X"),
                 self.catalogue.get_item("Y"),
                 self.catalogue.get_item("Z")],
-                price=45)
+                price=45,
+            )
         ],
             key=lambda offer: offer.get_discount(basket))
         offers.reverse()

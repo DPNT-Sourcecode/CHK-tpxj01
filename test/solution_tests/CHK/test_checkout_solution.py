@@ -73,5 +73,7 @@ class TestCheckout:
     #     assert CheckoutSolution().checkout("LGCKAQXFOSKZGIWHNRNDITVBUUEOZXPYAVFDEPTBMQLYJRSMJCWH") ==
 
     def test_buy_any_3_of_stxyz(self):
-        assert CheckoutSolution().checkout("STXYZ") == 45
+        assert CheckoutSolution().checkout("STX") == 45
+        assert CheckoutSolution().checkout("XYZ") == 45
+        assert CheckoutSolution().checkout("TXZ") == 45
         assert CheckoutSolution().checkout("ABSTXYZ") == 125
