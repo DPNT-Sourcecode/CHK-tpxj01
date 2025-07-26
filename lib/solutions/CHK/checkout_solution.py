@@ -98,13 +98,14 @@ class CheckoutSolution:
         # 2E get one B free = 30
         # 3A for 130 = 20
         # 2B for 45 = 15
-        self.offers = reverse(sorted([
+        self.offers = sorted([
             QuantityDiscountOffer(a, 5, 200),
             QuantityDiscountOffer(a, 3, 130),
             QuantityDiscountOffer(b, 2, 45),
             OtherItemFreeOffer(e, 2, b)
             ],
-        key=lambda offer: offer.get_discount()))
+        key=lambda offer: offer.get_discount())
+        self.offers.reverse()
 
 
     # skus = unicode string

@@ -27,19 +27,19 @@ class TestCheckout:
 
     def test_quantity_discount_offer(self):
         # 130 + 30 + 20 + 15
-        # assert CheckoutSolution().checkout("ABCADA") == 195
+        assert CheckoutSolution().checkout("ABCADA") == 195
         # 2 x A = 100
         # 4 x B = (45 * 2) = 90
         # 1 x C = 20
         # 1 x D = 15
-        # assert CheckoutSolution().checkout("ABCABDBB") == 225
+        assert CheckoutSolution().checkout("ABCABDBB") == 225
         # 9 x A = 200 (for 5) + 130 (for 3) + 50 (for 1)
         # 1 x B = 30
         # 1 x C = 20
         assert CheckoutSolution().checkout("AABACAAAAAA") == 430
         # 200 + 200 + 200 + 130 + 50
         assert CheckoutSolution().checkout("AAAAAAAAAAAAAAAAAAA") == 780
-    #
-    # def test_free_item_offer(self):
-    #     # 50 + 40 + 30 + 40 (only 1 B)
-    #     assert CheckoutSolution().checkout("AEBEB") == 160
+
+    def test_free_item_offer(self):
+        # 50 + 40 + 30 + 40
+        assert CheckoutSolution().checkout("AEBEB") == 160
