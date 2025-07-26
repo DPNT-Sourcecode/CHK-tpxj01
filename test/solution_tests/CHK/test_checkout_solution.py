@@ -88,5 +88,10 @@ class TestCheckout:
         # I have copied and pasted the params and expected values into the assertions below, and the tests pass.
         # Yet for some reason they fail when ran on the server. Did my code not "upload" to the server correctly?
         # I don't know how to debug this without getting more time penalties.
+
+        # UPDATE: Thankfully these passed after submitting a second time
         assert CheckoutSolution().checkout("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ") == 1880
         assert CheckoutSolution().checkout("LGCKAQXFOSKZGIWHNRNDITVBUUEOZXPYAVFDEPTBMQLYJRSMJCWH") == 1880
+
+    # def test_buy_any_3_of_stxyz(self):
+    #     assert CheckoutSolution().checkout("STXYZ") == 45
