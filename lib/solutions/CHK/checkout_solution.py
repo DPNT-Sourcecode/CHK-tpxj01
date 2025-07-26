@@ -20,7 +20,7 @@ class Offer:
     def get_sku(self):
         return self.item.sku
 
-    def get_discount(self, basket) -> int:
+    def get_discount(self) -> int:
         raise NotImplementedError
 
     def applies_to(self, basket) -> bool:
@@ -45,7 +45,7 @@ class QuantityDiscountOffer(Offer):
     #
     #     return (self.item.price * self.quantity) - self.price
 
-    def get_discount(self, basket) -> int:
+    def get_discount(self) -> int:
         return (self.item.price * self.quantity) - self.price
 
     def applies_to(self, basket) -> bool:
@@ -58,7 +58,7 @@ class OtherItemFreeOffer(Offer):
         self.quantity = quantity
         self.free_item = free_item
 
-    def get_discount(self, basket) -> int:
+    def get_discount(self) -> int:
         return self.free_item.price
 
     def applies_to(self, basket) -> bool:
@@ -81,9 +81,9 @@ class CheckoutSolution:
         self.catalogue.add_item(d)
         self.catalogue.add_item(e)
 
-        self.offers = sorted[
-            QuantityDiscountOffer(a, 5, 200)
-        ]
+        self.offers = sorted([
+            QuantityDiscountOffer(a, 5, 200)],
+        key=lambda offer: offer.get_discount())
         self.offers[a.sku] = [QuantityDiscountOffer(a, 5, 200), QuantityDiscountOffer(a, 3, 130)]
         self.offers[b.sku] = [QuantityDiscountOffer(b, 2, 45)]
         self.offers[e.sku] = [OtherItemFreeOffer(e, 2, b)]
@@ -128,5 +128,6 @@ class CheckoutSolution:
             # e.g if you buy 2E and get one B free (discount = 30), you can't then get 2B for 45 (discount = 15)
 
         return total
+
 
 
