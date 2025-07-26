@@ -78,11 +78,13 @@ class TestCheckout:
         assert CheckoutSolution().checkout("TXZ") == 45
         assert CheckoutSolution().checkout("SSS") == 45
         assert CheckoutSolution().checkout("ZZX") == 45
+        assert CheckoutSolution().checkout("STXSTX") == 90
         # 45 for Z,S,T + 20 for Y + 17 for X
         assert CheckoutSolution().checkout("STXYZ") == 82
         # 45 for Z,S,S + 45 for T,Y,X + 17 for X
         assert CheckoutSolution().checkout("SXXYZST") == 107
         # 50 for A + 30 for B + 45 for Z,S,X
         assert CheckoutSolution().checkout("ABSXZ") == 125
+
 
 
