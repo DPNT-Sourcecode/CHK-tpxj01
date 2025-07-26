@@ -49,15 +49,15 @@ class QuantityDiscountOffer(Offer):
         return self.price
 
 
-class MultipleItemQuantityDiscount(Offer):
-
-    def __init__(self, items: list(Item), quantity: int, price: int):
-        self.items = items
-        self.quantity = quantity
-        self.price = price
-
-    def get_discount(self, basket) -> int:
-        return (self.item.price * self.quantity) - self.price
+# class MultipleItemQuantityDiscount(Offer):
+#
+#     def __init__(self, items: list(Item), quantity: int, price: int):
+#         self.items = items
+#         self.quantity = quantity
+#         self.price = price
+#
+#     def get_discount(self, basket) -> int:
+#         return (self.item.price * self.quantity) - self.price
 
 
 class OtherItemFreeOffer(Offer):
@@ -188,21 +188,21 @@ class CheckoutSolution:
         # 2B for 45 = 15
         # etc
         offers = sorted([
-            QuantityDiscountOffer(quantity=5, item=a, price=200),
-            QuantityDiscountOffer(quantity=3, item=a, price=130),
-            QuantityDiscountOffer(quantity=2, item=b, price=45),
-            OtherItemFreeOffer(quantity=2, item=e, free_item=b),
-            OtherItemFreeOffer(quantity=2, item=f, free_item=f),
-            QuantityDiscountOffer(quantity=5, item=h, price=45),
-            QuantityDiscountOffer(quantity=10, item=h, price=80),
-            QuantityDiscountOffer(quantity=2, item=k, price=120),
-            OtherItemFreeOffer(quantity=3, item=n, free_item=m),
-            QuantityDiscountOffer(quantity=5, item=p, price=200),
-            QuantityDiscountOffer(quantity=3, item=q, price=80),
-            OtherItemFreeOffer(quantity=3, item=r, free_item=q),
-            OtherItemFreeOffer(quantity=3, item=u, free_item=u),
-            QuantityDiscountOffer(quantity=2, item=v, price=90),
-            QuantityDiscountOffer(quantity=3, item=v, price=130),
+            QuantityDiscountOffer(quantity=5, item=self.catalogue.get_item("A"), price=200),
+            QuantityDiscountOffer(quantity=3, item=self.catalogue.get_item("A"), price=130),
+            QuantityDiscountOffer(quantity=2, item=self.catalogue.get_item("B"), price=45),
+            OtherItemFreeOffer(quantity=2, item=self.catalogue.get_item("E"), free_item=self.catalogue.get_item("B")),
+            OtherItemFreeOffer(quantity=2, item=self.catalogue.get_item("F"), free_item=self.catalogue.get_item("F")),
+            QuantityDiscountOffer(quantity=5, item=self.catalogue.get_item("H"), price=45),
+            QuantityDiscountOffer(quantity=10, item=self.catalogue.get_item("H"), price=80),
+            QuantityDiscountOffer(quantity=2, item=self.catalogue.get_item("K"), price=120),
+            OtherItemFreeOffer(quantity=3, item=self.catalogue.get_item("N"), free_item=self.catalogue.get_item("M")),
+            QuantityDiscountOffer(quantity=5, item=self.catalogue.get_item("P"), price=200),
+            QuantityDiscountOffer(quantity=3, item=self.catalogue.get_item("Q"), price=80),
+            OtherItemFreeOffer(quantity=3, item=self.catalogue.get_item("R"), free_item=self.catalogue.get_item("Q")),
+            OtherItemFreeOffer(quantity=3, item=self.catalogue.get_item("U"), free_item=self.catalogue.get_item("U")),
+            QuantityDiscountOffer(quantity=2, item=self.catalogue.get_item("V"), price=90),
+            QuantityDiscountOffer(quantity=3, item=self.catalogue.get_item("V"), price=130),
         ],
             key=lambda offer: offer.get_discount(basket))
         offers.reverse()
@@ -225,6 +225,7 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
 
