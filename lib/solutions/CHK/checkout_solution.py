@@ -198,7 +198,7 @@ class CheckoutSolution:
         # This ensure we don't apply multiple offers using the same items
         for offer in self.offers:
             while offer.applies_to(basket):
-                # print(f"Applying offer to {offer.item.sku}")
+                print(f"Applying offer to {offer.item.sku}")
                 # print(f"Basket: {basket}")
                 total += offer.apply(basket) # updates basket in-place
                 # print(f"total: {total}")
@@ -212,6 +212,7 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
 
