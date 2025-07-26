@@ -62,9 +62,6 @@ class OtherItemFreeOffer(Offer):
                 return basket[self.item.sku] >= self.quantity + 1
             return basket[self.item.sku] >= 2 and basket[self.free_item.sku] >= 1
         return False
-        # print(f"{basket.get(self.item.sku, -1)} + {basket.get(self.free_item.sku, -1)} => {self.quantity + 1}")
-        # return (basket.get(self.item.sku) and basket.get(self.free_item.sku) and
-        #         (basket.get(self.item.sku) + basket.get(self.free_item.sku)) >= (self.quantity + 1))
 
     def apply(self, basket) -> int:
         basket[self.item.sku] -= self.quantity
@@ -120,10 +117,10 @@ class CheckoutSolution:
         # This ensure we don't apply multiple offers using the same items
         for offer in self.offers:
             while offer.applies_to(basket):
-                print(f"Applying offer to {offer.item.sku}")
-                print(f"Basket: {basket}")
+                # print(f"Applying offer to {offer.item.sku}")
+                # print(f"Basket: {basket}")
                 total += offer.apply(basket) # updates basket in-place
-                print(f"total: {total}")
+                # print(f"total: {total}")
 
         # Now simply total up the remaining items in the basket
         for sku, quantity in basket.items():
@@ -134,3 +131,4 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
