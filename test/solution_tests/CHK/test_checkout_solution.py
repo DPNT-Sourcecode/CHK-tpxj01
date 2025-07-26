@@ -63,3 +63,8 @@ class TestCheckout:
     # The downside to that is that you then have logic in tests, which itself requires.....testing
     # But for a huge number of offers writing individual tests for each is tedious and error prone
     # LLMs can help with that (I'm not using one for this, because I assume I can't unless specifically told so)
+
+
+    def test_all_of_the_offers(self):
+        assert CheckoutSolution().checkout("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ") == 1880
+        assert CheckoutSolution().checkout("LGCKAQXFOSKZGIWHNRNDITVBUUEOZXPYAVFDEPTBMQLYJRSMJCWH") == 1880
