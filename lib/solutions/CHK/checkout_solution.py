@@ -58,31 +58,7 @@ class MultipleItemQuantityDiscount(Offer):
         self.price = price
 
     def get_discount(self, basket) -> int:
-        # """
-        # Calculate discount using <quantity> highest-priced items in basket
-        # :param basket:
-        # :return:
-        # """
-        # items_to_use = []
-        # for item in self.items:
-        #     if basket.get(item.sku):
-        #         print(f"found {basket.get(item.sku)} {item.sku} in basket")
-        #         while len(items_to_use) < self.quantity:
-        #             spaces_left = self.quantity - len(items_to_use)
-        #             print(f"{spaces_left} spaces left")
-        #             print(f"min of {basket[item.sku]} and {spaces_left}")
-        #             num_items_to_append = min(basket[item.sku], spaces_left)
-        #             print(f"appending {num_items_to_append} items")
-        #             for _ in range(num_items_to_append):
-        #                 items_to_use.append(item)
-        #
-        # discount = 0
-        # for item in items_to_use:
-        #     discount += item.price
-        #
-        # return discount
-
-        # TODO finish the above to ensure that the solution would work if either S, T, X, Y or Z had another offer.
+        # TODO we would need to modify this to ensure that the solution would work if either S, T, X, Y or Z had another offer.
         #  Because this offer is the only one that applies to any of them, we don't need this right now.
 
         return self.items[0].price * self.quantity
@@ -92,21 +68,15 @@ class MultipleItemQuantityDiscount(Offer):
         for item in self.items:
             if basket.get(item.sku):
                 num_applicable_items += basket[item.sku]
-        print(f"applies if {num_applicable_items} >= {self.quantity}")
+        # print(f"applies if {num_applicable_items} >= {self.quantity}")
         return num_applicable_items >= self.quantity
 
     def apply(self, basket) -> int:
-        print(f"applying offer, items: {[item.sku for item in self.items]}")
+        # print(f"applying offer, items: {[item.sku for item in self.items]}")
         applicable_basket_items = self.get_basket_items_used_in_offer(basket)
 
         for applicable_item_sku, applicable_item_quantity in applicable_basket_items.items():
             basket[applicable_item_sku] -= applicable_item_quantity
-
-        # for item in self.items:
-        #     if basket.get(item.sku):
-        #         num_items_to_subtract = 0 # TODO
-        #         print(f"Removing {num_items_to_subtract} of {item.sku} from basket")
-        #         basket[item.sku] -= num_items_to_subtract
 
         return self.price
 
@@ -115,8 +85,8 @@ class MultipleItemQuantityDiscount(Offer):
         for item in self.items:
             if basket.get(item.sku) and sum(applicable_items.values()) < self.quantity:
                 applicable_items[item.sku] = min(basket.get(item.sku), self.quantity)
-                print(f"added {applicable_items[item.sku]} of {item.sku}")
-        print(f"applicable items in basket: {applicable_items}")
+                # print(f"added {applicable_items[item.sku]} of {item.sku}")
+        # print(f"applicable items in basket: {applicable_items}")
         return applicable_items
 
 
@@ -264,8 +234,3 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
-
-
-
-
-
