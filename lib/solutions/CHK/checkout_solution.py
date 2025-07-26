@@ -1,4 +1,6 @@
 import math
+from typing import Optional
+
 
 class Item:
     def __init__(self, sku: str, price: int):
@@ -13,11 +15,14 @@ class Catalogue:
     def add_item(self, item: Item):
         self.items[item.sku] = item
 
+    def get_item(self, sku: str) -> Optional[Item]:
+        return self.items.get(sku)
+
 class Offer:
     def __init__(self, item: Item):
         self.item = item
 
-    def get_discount(self) -> int:
+    def get_discount(self, basket) -> int:
         raise NotImplementedError
 
     def applies_to(self, basket) -> bool:
@@ -33,7 +38,7 @@ class QuantityDiscountOffer(Offer):
         self.quantity = quantity
         self.price = price
 
-    def get_discount(self) -> int:
+    def get_discount(self, basket) -> int:
         return (self.item.price * self.quantity) - self.price
 
     def applies_to(self, basket) -> bool:
@@ -47,9 +52,13 @@ class QuantityDiscountOffer(Offer):
 class MultipleItemQuantityDiscount(Offer):
 
     def __init__(self, items: list(Item), quantity: int, price: int):
-        super().__init__(item)
+        self.items = items
         self.quantity = quantity
         self.price = price
+
+    def get_discount(self, basket) -> int:
+        return (self.item.price * self.quantity) - self.price
+
 
 class OtherItemFreeOffer(Offer):
     def __init__(self, item: Item, quantity: int, free_item: Item):
@@ -57,7 +66,7 @@ class OtherItemFreeOffer(Offer):
         self.quantity = quantity
         self.free_item = free_item
 
-    def get_discount(self) -> int:
+    def get_discount(self, basket) -> int:
         return self.free_item.price
 
     def applies_to(self, basket) -> bool:
@@ -162,12 +171,23 @@ class CheckoutSolution:
         self.catalogue.add_item(y)
         self.catalogue.add_item(z)
 
+
+    # skus = unicode string
+    def checkout(self, skus):
+        total = 0
+
+        # Populate our basket as map of sku to quantity
+        basket = {}
+        for sku in skus:
+            basket[sku] = basket.get(sku, 0) + 1
+
         # Sort offers by potential discount
         # 5A for 200 = 50
         # 2E get one B free = 30
         # 3A for 130 = 20
         # 2B for 45 = 15
-        self.offers = sorted([
+        # etc
+        offers = sorted([
             QuantityDiscountOffer(quantity=5, item=a, price=200),
             QuantityDiscountOffer(quantity=3, item=a, price=130),
             QuantityDiscountOffer(quantity=2, item=b, price=45),
@@ -183,24 +203,13 @@ class CheckoutSolution:
             OtherItemFreeOffer(quantity=3, item=u, free_item=u),
             QuantityDiscountOffer(quantity=2, item=v, price=90),
             QuantityDiscountOffer(quantity=3, item=v, price=130),
-            ],
-        key=lambda offer: offer.get_discount())
-        self.offers.reverse()
-
-
-    # skus = unicode string
-    def checkout(self, skus):
-
-        # Populate our basket as map of sku to quantity
-        basket = {}
-        for sku in skus:
-            basket[sku] = basket.get(sku, 0) + 1
-
-        total = 0
+        ],
+            key=lambda offer: offer.get_discount(basket))
+        offers.reverse()
 
         # Apply each offers to basket, removing items to which an offer has been applied
         # This ensure we don't apply multiple offers using the same items
-        for offer in self.offers:
+        for offer in offers:
             while offer.applies_to(basket):
                 # print(f"Applying offer to {offer.item.sku}")
                 # print(f"Basket: {basket}")
@@ -216,5 +225,6 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
