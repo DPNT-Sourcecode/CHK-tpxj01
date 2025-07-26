@@ -74,7 +74,7 @@ class OtherItemFreeOffer(Offer):
     def apply(self, basket) -> int:
         basket[self.item.sku] -= self.quantity
         basket[self.free_item.sku] -= 1
-        return (self.item.price * self.quantity) + self.free_item.price
+        return self.item.price * self.quantity
 
 
 class CheckoutSolution:
@@ -123,6 +123,7 @@ class CheckoutSolution:
         for offer in self.offers:
             while offer.applies_to(basket):
                 print(f"Applying offer to {offer.item.sku}")
+                print(f"Basket: {basket}")
                 total += offer.apply(basket) # updates basket in-place
                 print(f"total: {total}")
 

@@ -41,5 +41,6 @@ class TestCheckout:
         assert CheckoutSolution().checkout("AAAAAAAAAAAAAAAAAAA") == 780
 
     def test_free_item_offer(self):
-        # 50 + 40 + 30 + 40
+        # 1A + 2E      + 1B  (one B deducted)
+        # 50 + 40 + 40 + 30
         assert CheckoutSolution().checkout("AEBEB") == 160
