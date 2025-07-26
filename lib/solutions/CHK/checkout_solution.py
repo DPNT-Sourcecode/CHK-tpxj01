@@ -58,10 +58,12 @@ class MultipleItemQuantityDiscount(Offer):
         self.price = price
 
     def get_discount(self, basket) -> int:
-        # return (self.item.price * self.quantity) - self.price
-        # TODO select affected items in price order, highest price first, to determine what discount would be
+        """
+        Calculate discount using <quantity> highest-priced items in basket
+        :param basket:
+        :return:
+        """
         items_to_use = []
-        # Calculate discount using <quantity> highest-priced items in basket
         for item in self.items:
             if basket.get(item.sku):
                 while len(items_to_use) < self.quantity:
@@ -73,7 +75,7 @@ class MultipleItemQuantityDiscount(Offer):
         discount = 0
         for item in items_to_use:
             discount += item.price
-            
+
         return discount
 
     def applies_to(self, basket) -> bool:
@@ -83,9 +85,8 @@ class MultipleItemQuantityDiscount(Offer):
         return num_applicable_items >= self.quantity
 
     def apply(self, basket) -> int:
-        # TODO select affected items to remove in price order, highest priced first
-        # for item in self.items:
-        #     basket[item.sku] -= self.quantity
+        for item in self.items:
+            basket[item.sku] -= self.quantity
         return self.price
 
 
@@ -115,36 +116,6 @@ class CheckoutSolution:
 
     def __init__(self):
         # Build our product catalogue
-        # +------+-------+------------------------+
-        # | Item | Price | Special offers         |
-        # +------+-------+------------------------+
-        # | A    | 50    | 3A for 130, 5A for 200 |
-        # | B    | 30    | 2B for 45              |
-        # | C    | 20    |                        |
-        # | D    | 15    |                        |
-        # | E    | 40    | 2E get one B free      |
-        # | F    | 10    | 2F get one F free      |
-        # | G    | 20    |                        |
-        # | H    | 10    | 5H for 45, 10H for 80  |
-        # | I    | 35    |                        |
-        # | J    | 60    |                        |
-        # | K    | 80    | 2K for 150             |
-        # | L    | 90    |                        |
-        # | M    | 15    |                        |
-        # | N    | 40    | 3N get one M free      |
-        # | O    | 10    |                        |
-        # | P    | 50    | 5P for 200             |
-        # | Q    | 30    | 3Q for 80              |
-        # | R    | 50    | 3R get one Q free      |
-        # | S    | 30    |                        |
-        # | T    | 20    |                        |
-        # | U    | 40    | 3U get one U free      |
-        # | V    | 50    | 2V for 90, 3V for 130  |
-        # | W    | 20    |                        |
-        # | X    | 90    |                        |
-        # | Y    | 10    |                        |
-        # | Z    | 50    |                        |
-        # +------+-------+------------------------+
         self.catalogue = Catalogue()
         a = Item("A", 50)
         b = Item("B", 30)
@@ -233,6 +204,7 @@ class CheckoutSolution:
             OtherItemFreeOffer(quantity=3, item=self.catalogue.get_item("U"), free_item=self.catalogue.get_item("U")),
             QuantityDiscountOffer(quantity=2, item=self.catalogue.get_item("V"), price=90),
             QuantityDiscountOffer(quantity=3, item=self.catalogue.get_item("V"), price=130),
+            MultipleItemQuantityDiscount()
         ],
             key=lambda offer: offer.get_discount(basket))
         offers.reverse()

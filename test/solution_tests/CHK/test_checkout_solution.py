@@ -74,3 +74,4 @@ class TestCheckout:
 
     def test_buy_any_3_of_stxyz(self):
         assert CheckoutSolution().checkout("STXYZ") == 45
+        assert CheckoutSolution().checkout("ABSTXYZ") == 125
