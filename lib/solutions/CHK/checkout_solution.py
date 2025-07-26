@@ -73,6 +73,36 @@ class CheckoutSolution:
 
     def __init__(self):
         # Build our product catalogue
+        # +------+-------+------------------------+
+        # | Item | Price | Special offers         |
+        # +------+-------+------------------------+
+        # | A    | 50    | 3A for 130, 5A for 200 |
+        # | B    | 30    | 2B for 45              |
+        # | C    | 20    |                        |
+        # | D    | 15    |                        |
+        # | E    | 40    | 2E get one B free      |
+        # | F    | 10    | 2F get one F free      |
+        # | G    | 20    |                        |
+        # | H    | 10    | 5H for 45, 10H for 80  |
+        # | I    | 35    |                        |
+        # | J    | 60    |                        |
+        # | K    | 80    | 2K for 150             |
+        # | L    | 90    |                        |
+        # | M    | 15    |                        |
+        # | N    | 40    | 3N get one M free      |
+        # | O    | 10    |                        |
+        # | P    | 50    | 5P for 200             |
+        # | Q    | 30    | 3Q for 80              |
+        # | R    | 50    | 3R get one Q free      |
+        # | S    | 30    |                        |
+        # | T    | 20    |                        |
+        # | U    | 40    | 3U get one U free      |
+        # | V    | 50    | 2V for 90, 3V for 130  |
+        # | W    | 20    |                        |
+        # | X    | 90    |                        |
+        # | Y    | 10    |                        |
+        # | Z    | 50    |                        |
+        # +------+-------+------------------------+
         self.catalogue = Catalogue()
         a = Item("A", 50)
         b = Item("B", 30)
@@ -80,12 +110,53 @@ class CheckoutSolution:
         d = Item("D", 15)
         e = Item("E", 40)
         f = Item("F", 10)
+        g = Item("G",20)
+        h = Item("H",10)
+        i = Item("I",35)
+        j = Item("J",60)
+        k = Item("K",80)
+        l = Item("L",90)
+        m = Item("M",15)
+        n = Item("N",40)
+        o = Item("O",10)
+        p = Item("P",50)
+        q = Item("Q",30)
+        r = Item("R",50)
+        s = Item("S",30)
+        t = Item("T",20)
+        u = Item("U",40)
+        v = Item("V",50)
+        w = Item("W",20)
+        x = Item("X",90)
+        y = Item("Y",10)
+        z = Item("Z",50)
+
         self.catalogue.add_item(a)
         self.catalogue.add_item(b)
         self.catalogue.add_item(c)
         self.catalogue.add_item(d)
         self.catalogue.add_item(e)
         self.catalogue.add_item(f)
+        self.catalogue.add_item(g)
+        self.catalogue.add_item(h)
+        self.catalogue.add_item(i)
+        self.catalogue.add_item(j)
+        self.catalogue.add_item(k)
+        self.catalogue.add_item(l)
+        self.catalogue.add_item(m)
+        self.catalogue.add_item(n)
+        self.catalogue.add_item(o)
+        self.catalogue.add_item(p)
+        self.catalogue.add_item(q)
+        self.catalogue.add_item(r)
+        self.catalogue.add_item(s)
+        self.catalogue.add_item(t)
+        self.catalogue.add_item(u)
+        self.catalogue.add_item(v)
+        self.catalogue.add_item(w)
+        self.catalogue.add_item(x)
+        self.catalogue.add_item(y)
+        self.catalogue.add_item(z)
 
         # Sort offers by potential discount
         # 5A for 200 = 50
@@ -93,11 +164,21 @@ class CheckoutSolution:
         # 3A for 130 = 20
         # 2B for 45 = 15
         self.offers = sorted([
-            QuantityDiscountOffer(a, 5, 200),
-            QuantityDiscountOffer(a, 3, 130),
-            QuantityDiscountOffer(b, 2, 45),
-            OtherItemFreeOffer(e, 2, b),
-            OtherItemFreeOffer(f, 2, f)
+            QuantityDiscountOffer(quantity=5, item=a, price=200),
+            QuantityDiscountOffer(quantity=3, item=a, price=130),
+            QuantityDiscountOffer(quantity=2, item=b, price=45),
+            OtherItemFreeOffer(quantity=2, item=e, free_item=b),
+            OtherItemFreeOffer(quantity=2, item=f, free_item=f),
+            QuantityDiscountOffer(quantity=5, item=h, price=45),
+            QuantityDiscountOffer(quantity=10, item=h, price=80),
+            QuantityDiscountOffer(quantity=2, item=k, price=150),
+            OtherItemFreeOffer(quantity=3, item=n, free_item=m),
+            QuantityDiscountOffer(quantity=5, item=p, price=200),
+            QuantityDiscountOffer(quantity=3, item=q, price=80),
+            OtherItemFreeOffer(quantity=3, item=r, free_item=q),
+            OtherItemFreeOffer(quantity=3, item=u, free_item=u),
+            QuantityDiscountOffer(quantity=2, item=v, price=90),
+            QuantityDiscountOffer(quantity=3, item=v, price=130),
             ],
         key=lambda offer: offer.get_discount())
         self.offers.reverse()
@@ -131,4 +212,5 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
