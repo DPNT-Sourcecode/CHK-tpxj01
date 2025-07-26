@@ -52,12 +52,11 @@ class QuantityDiscountOffer(Offer):
         return (self.item.price * self.quantity) - self.price
 
     def applies_to(self, basket) -> bool:
-        return basket[self.item.sku] >= self.quantity
+        return basket.get(self.item.sku, 0) >= self.quantity
 
-    def apply(self, basket):
-        # discount = offer.get_discount(basket)
-        #         sku_total -= (discount * num_times_to_apply_discount)
-        #         remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
+    def apply(self, basket) -> int:
+        basket[self.item.sku] -= self.quantity
+        return self.price
 
 
 class OtherItemFreeOffer(Offer):
@@ -70,7 +69,12 @@ class OtherItemFreeOffer(Offer):
         return self.free_item.price
 
     def applies_to(self, basket) -> bool:
-        return basket[self.item.sku] >= 2 and basket[self.free_item.sku] >= 1
+        return basket.get(self.item.sku, 0) >= 2 and basket.get(self.free_item.sku, 0) >= 1
+
+    def apply(self, basket) -> int:
+        basket[self.item.sku] -= self.quantity
+        basket[self.free_item.sku] -= 1
+        return (self.item.price * self.quantity) + self.free_item.price
 
 
 class CheckoutSolution:
@@ -144,3 +148,4 @@ class CheckoutSolution:
 
 
         return total
+
