@@ -53,21 +53,28 @@ class MultipleItemQuantityDiscount(Offer):
 
     def __init__(self, items: list[Item], quantity: int, price: int):
         self.items = items
+        self.items.sort(key=lambda item: item.price, reverse=True)
         self.quantity = quantity
         self.price = price
 
     def get_discount(self, basket) -> int:
         # return (self.item.price * self.quantity) - self.price
-        # TODO
+        # TODO select affected items in price order, highest price first, to determine what discount would be
+        for item in self.items:
+            if basket.get(item.sku):
+
         pass
 
     def applies_to(self, basket) -> bool:
-        applicable_items = []
+        num_applicable_items = []
         for item in self.items:
-            pass
+            num_applicable_items += basket.get(item.sku, -1)
+        return num_applicable_items >= self.quantity
 
     def apply(self, basket) -> int:
-        basket[self.item.sku] -= self.quantity
+        # TODO select affected items to remove in price order, highest priced first
+        # for item in self.items:
+        #     basket[item.sku] -= self.quantity
         return self.price
 
 
@@ -198,6 +205,7 @@ class CheckoutSolution:
         # 3A for 130 = 20
         # 2B for 45 = 15
         # etc
+        # TODO refactor to use sort(reverse=True)
         offers = sorted([
             QuantityDiscountOffer(quantity=5, item=self.catalogue.get_item("A"), price=200),
             QuantityDiscountOffer(quantity=3, item=self.catalogue.get_item("A"), price=130),
@@ -236,3 +244,4 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
