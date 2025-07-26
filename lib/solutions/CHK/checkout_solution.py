@@ -92,13 +92,14 @@ class MultipleItemQuantityDiscount(Offer):
         for item in self.items:
             if basket.get(item.sku):
                 num_applicable_items += basket[item.sku]
-        print(f"checking if {num_applicable_items} > {self.quantity}")
+        print(f"checking if {num_applicable_items} >= {self.quantity}")
         return num_applicable_items >= self.quantity
 
     def apply(self, basket) -> int:
         print(f"applying offer")
         for item in self.items:
-            basket[item.sku] -= self.quantity
+            if basket.get(item.sku):
+                basket[item.sku] -= self.quantity
         return self.price
 
 
@@ -246,3 +247,4 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
