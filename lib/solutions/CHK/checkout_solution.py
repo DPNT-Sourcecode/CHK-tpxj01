@@ -67,10 +67,14 @@ class MultipleItemQuantityDiscount(Offer):
                 while len(items_to_use) < self.quantity:
                     spaces_left = self.quantity - len(items_to_use)
                     num_items_to_append = min(basket[item.sku], spaces_left)
-                    for n in num_items_to_append:
+                    for _ in range(num_items_to_append):
                         items_to_use.append(basket[item.sku])
-        # TODO finish
-        pass
+
+        discount = 0
+        for item in items_to_use:
+            discount += item.price
+            
+        return discount
 
     def applies_to(self, basket) -> bool:
         num_applicable_items = []
@@ -251,3 +255,4 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
