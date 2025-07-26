@@ -70,7 +70,7 @@ class MultipleItemQuantityDiscount(Offer):
                     spaces_left = self.quantity - len(items_to_use)
                     num_items_to_append = min(basket[item.sku], spaces_left)
                     for _ in range(num_items_to_append):
-                        items_to_use.append(basket[item.sku])
+                        items_to_use.append(item)
 
         discount = 0
         for item in items_to_use:
@@ -79,7 +79,7 @@ class MultipleItemQuantityDiscount(Offer):
         return discount
 
     def applies_to(self, basket) -> bool:
-        num_applicable_items = []
+        num_applicable_items = 0
         for item in self.items:
             num_applicable_items += basket.get(item.sku, -1)
         return num_applicable_items >= self.quantity
@@ -204,7 +204,13 @@ class CheckoutSolution:
             OtherItemFreeOffer(quantity=3, item=self.catalogue.get_item("U"), free_item=self.catalogue.get_item("U")),
             QuantityDiscountOffer(quantity=2, item=self.catalogue.get_item("V"), price=90),
             QuantityDiscountOffer(quantity=3, item=self.catalogue.get_item("V"), price=130),
-            MultipleItemQuantityDiscount()
+            MultipleItemQuantityDiscount(quantity=3, items=[
+                self.catalogue.get_item("S"),
+                self.catalogue.get_item("T"),
+                self.catalogue.get_item("X"),
+                self.catalogue.get_item("Y"),
+                self.catalogue.get_item("Z")],
+                price=45)
         ],
             key=lambda offer: offer.get_discount(basket))
         offers.reverse()
@@ -227,4 +233,5 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
