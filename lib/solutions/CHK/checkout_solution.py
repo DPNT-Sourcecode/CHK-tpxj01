@@ -98,13 +98,13 @@ class CheckoutSolution:
         # 2E get one B free = 30
         # 3A for 130 = 20
         # 2B for 45 = 15
-        self.offers = sorted([
+        self.offers = reverse(sorted([
             QuantityDiscountOffer(a, 5, 200),
             QuantityDiscountOffer(a, 3, 130),
             QuantityDiscountOffer(b, 2, 45),
             OtherItemFreeOffer(e, 2, b)
             ],
-        key=lambda offer: offer.get_discount())
+        key=lambda offer: offer.get_discount()))
 
 
     # skus = unicode string
@@ -123,6 +123,7 @@ class CheckoutSolution:
             while offer.applies_to(basket):
                 print(f"Applying offer to {offer.item.sku}")
                 total += offer.apply(basket) # updates basket in-place
+                print(f"total: {total}")
 
         # Now simply total up the remaining items in the basket
         for sku, quantity in basket.items():
@@ -147,6 +148,7 @@ class CheckoutSolution:
 
 
         return total
+
 
 
 
