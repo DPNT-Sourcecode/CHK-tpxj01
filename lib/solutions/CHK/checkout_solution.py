@@ -114,7 +114,7 @@ class CheckoutSolution:
         h = Item("H", 10)
         i = Item("I", 35)
         j = Item("J", 60)
-        k = Item("K", 80)
+        k = Item("K", 70)
         l = Item("L", 90)
         m = Item("M", 15)
         n = Item("N", 40)
@@ -122,14 +122,14 @@ class CheckoutSolution:
         p = Item("P", 50)
         q = Item("Q", 30)
         r = Item("R", 50)
-        s = Item("S", 30)
+        s = Item("S", 20)
         t = Item("T", 20)
         u = Item("U", 40)
         v = Item("V", 50)
         w = Item("W", 20)
-        x = Item("X", 90)
-        y = Item("Y", 10)
-        z = Item("Z", 50)
+        x = Item("X", 17)
+        y = Item("Y", 20)
+        z = Item("Z", 21)
 
         self.catalogue.add_item(a)
         self.catalogue.add_item(b)
@@ -212,3 +212,4 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
