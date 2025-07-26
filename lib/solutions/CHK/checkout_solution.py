@@ -93,6 +93,11 @@ class CheckoutSolution:
         self.catalogue.add_item(d)
         self.catalogue.add_item(e)
 
+        # Sort offers by potential discount
+        # 5A for 200 = 50
+        # 2E get one B free = 30
+        # 3A for 130 = 20
+        # 2B for 45 = 15
         self.offers = sorted([
             QuantityDiscountOffer(a, 5, 200),
             QuantityDiscountOffer(a, 3, 130),
@@ -118,9 +123,6 @@ class CheckoutSolution:
             while offer.applies_to(basket):
                 total += offer.apply(basket) # updates basket in-place
 
-                # TODO continue to apply offers to the rest of the basket
-                # e.g if you buy 2E and get one B free (discount = 30), you can't then get 2B for 45 (discount = 15)
-
         # Now simply total up the remaining items in the basket
         for sku, quantity in basket.items():
             catalog_item = self.catalogue.items.get(sku)
@@ -140,12 +142,9 @@ class CheckoutSolution:
             #
             # total += sku_total
 
-            # TODO sort offers by potential discount
-            # 5A for 200 = 50
-            # 2E get one B free = 30
-            # 3A for 130 = 20
-            # 2B for 45 = 15
+
 
 
         return total
+
 
