@@ -113,7 +113,7 @@ class MultipleItemQuantityDiscount(Offer):
     def get_basket_items_used_in_offer(self, basket):
         applicable_items = {}
         for item in self.items:
-            if basket.get(item.sku) and sum(applicable_items.values()) <= self.quantity:
+            if basket.get(item.sku) and sum(applicable_items.values()) < self.quantity:
                 applicable_items[item.sku] = min(basket.get(item.sku), self.quantity)
                 print(f"added {applicable_items[item.sku]} of {item.sku}")
         print(f"applicable items in basket: {applicable_items}")
@@ -264,6 +264,7 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
 
