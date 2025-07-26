@@ -96,10 +96,10 @@ class MultipleItemQuantityDiscount(Offer):
         return num_applicable_items >= self.quantity
 
     def apply(self, basket) -> int:
-        print(f"applying offer")
+        print(f"applying offer, items: {self.items}")
         for item in self.items:
             if basket.get(item.sku):
-                num_items_to_subtract = len([i for i in self.items if i.sku == item.sku])
+                num_items_to_subtract = 0 # TODO
                 print(f"Removing {num_items_to_subtract} of {item.sku} from basket")
                 basket[item.sku] -= num_items_to_subtract
         return self.price
@@ -249,5 +249,6 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
