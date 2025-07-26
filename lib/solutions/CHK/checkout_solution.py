@@ -57,10 +57,14 @@ class OtherItemFreeOffer(Offer):
         return self.free_item.price
 
     def applies_to(self, basket) -> bool:
-        #return basket.get(self.item.sku, -1) >= 2 and basket.get(self.free_item.sku, -1) >= 1
-        print(f"{basket.get(self.item.sku, -1)} + {basket.get(self.free_item.sku, -1)} => {self.quantity + 1}")
-        return (basket.get(self.item.sku) and basket.get(self.free_item.sku) and
-                (basket.get(self.item.sku) + basket.get(self.free_item.sku)) >= (self.quantity + 1))
+        if basket.get(self.item.sku) and basket.get(self.free_item.sku):
+            if self.item.sku == self.free_item.sku:
+                return basket[self.item.sku] >= self.quantity + 1
+            return basket[self.item.sku] >= 2 and basket[self.free_item.sku] >= 1
+        return False
+        # print(f"{basket.get(self.item.sku, -1)} + {basket.get(self.free_item.sku, -1)} => {self.quantity + 1}")
+        # return (basket.get(self.item.sku) and basket.get(self.free_item.sku) and
+        #         (basket.get(self.item.sku) + basket.get(self.free_item.sku)) >= (self.quantity + 1))
 
     def apply(self, basket) -> int:
         basket[self.item.sku] -= self.quantity
