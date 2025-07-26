@@ -13,10 +13,8 @@ class TestCheckout:
     def test_one_item(self, sku, price):
         assert CheckoutSolution().checkout(sku) == price
 
-    def test_unknown_item(self):
-        assert CheckoutSolution().checkout("X") == -1
-
     def test_invalid_sku(self):
+        assert CheckoutSolution().checkout("x") == -1
         assert CheckoutSolution().checkout("-") == -1
 
     def test_zero_items(self):
@@ -59,3 +57,9 @@ class TestCheckout:
         assert CheckoutSolution().checkout("FFFF") == 30
         assert CheckoutSolution().checkout("FFFFF") == 40
         assert CheckoutSolution().checkout("FFFFFF") == 40
+
+
+    # IF I HAD MORE TIME I'd consider some sort of automated way of generating tests based on list of offers
+    # The downside to that is that you then have logic in tests, which itself requires.....testing
+    # But for a huge number of offers writing individual tests for each is tedious and error prone
+    # LLMs can help with that (I'm not using one for this, because I assume I can't unless specifically told so)
