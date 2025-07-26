@@ -59,7 +59,8 @@ class OtherItemFreeOffer(Offer):
     def applies_to(self, basket) -> bool:
         #return basket.get(self.item.sku, -1) >= 2 and basket.get(self.free_item.sku, -1) >= 1
         print(f"{basket.get(self.item.sku, -1)} + {basket.get(self.free_item.sku, -1)} => {self.quantity + 1}")
-        return (basket.get(self.item.sku, -1) + basket.get(self.free_item.sku, -1)) >= (self.quantity + 1)
+        return (basket.get(self.item.sku) and basket.get(self.free_item.sku) and
+                (basket.get(self.item.sku) + basket.get(self.free_item.sku)) >= (self.quantity + 1))
 
     def apply(self, basket) -> int:
         basket[self.item.sku] -= self.quantity
@@ -129,4 +130,5 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
