@@ -99,7 +99,7 @@ class MultipleItemQuantityDiscount(Offer):
         print(f"applying offer")
         for item in self.items:
             if basket.get(item.sku):
-                basket[item.sku] -= self.quantity
+                basket[item.sku] -= 1
         return self.price
 
 
