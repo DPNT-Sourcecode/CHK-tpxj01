@@ -57,7 +57,8 @@ class OtherItemFreeOffer(Offer):
         return self.free_item.price
 
     def applies_to(self, basket) -> bool:
-        return basket.get(self.item.sku, -1) >= 2 and basket.get(self.free_item.sku, -1) >= 1
+        #return basket.get(self.item.sku, -1) >= 2 and basket.get(self.free_item.sku, -1) >= 1
+        return basket.get(self.item.sku, -1) + basket.get(self.free_item.sku, -1) >= (self.quantity + 1)
 
     def apply(self, basket) -> int:
         basket[self.item.sku] -= self.quantity
@@ -92,7 +93,8 @@ class CheckoutSolution:
             QuantityDiscountOffer(a, 5, 200),
             QuantityDiscountOffer(a, 3, 130),
             QuantityDiscountOffer(b, 2, 45),
-            OtherItemFreeOffer(e, 2, b)
+            OtherItemFreeOffer(e, 2, b),
+            OtherItemFreeOffer(f, 2, f)
             ],
         key=lambda offer: offer.get_discount())
         self.offers.reverse()
@@ -126,3 +128,4 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
