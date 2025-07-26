@@ -171,7 +171,7 @@ class CheckoutSolution:
             OtherItemFreeOffer(quantity=2, item=f, free_item=f),
             QuantityDiscountOffer(quantity=5, item=h, price=45),
             QuantityDiscountOffer(quantity=10, item=h, price=80),
-            QuantityDiscountOffer(quantity=2, item=k, price=150),
+            QuantityDiscountOffer(quantity=2, item=k, price=120),
             OtherItemFreeOffer(quantity=3, item=n, free_item=m),
             QuantityDiscountOffer(quantity=5, item=p, price=200),
             QuantityDiscountOffer(quantity=3, item=q, price=80),

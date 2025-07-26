@@ -90,8 +90,8 @@ class TestCheckout:
         # I don't know how to debug this without getting more time penalties.
 
         # UPDATE: Thankfully these passed after submitting a second time
-        assert CheckoutSolution().checkout("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ") == 1880
-        assert CheckoutSolution().checkout("LGCKAQXFOSKZGIWHNRNDITVBUUEOZXPYAVFDEPTBMQLYJRSMJCWH") == 1880
+        assert CheckoutSolution().checkout("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ") == 1768
+        assert CheckoutSolution().checkout("LGCKAQXFOSKZGIWHNRNDITVBUUEOZXPYAVFDEPTBMQLYJRSMJCWH") == 1768
 
     # def test_buy_any_3_of_stxyz(self):
     #     assert CheckoutSolution().checkout("STXYZ") == 45
