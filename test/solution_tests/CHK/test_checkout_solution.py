@@ -58,6 +58,9 @@ class TestCheckout:
         assert CheckoutSolution().checkout("FFFFF") == 40
         assert CheckoutSolution().checkout("FFFFFF") == 40
 
+    def test_buy_three_r_get_one_q_free(self):
+        assert CheckoutSolution().checkout("RRQ") == 130
+        assert CheckoutSolution().checkout("RRRQ") == 150
 
     # IF I HAD MORE TIME I'd consider some sort of automated way of generating tests based on list of offers
     # The downside to that is that you then have logic in tests, which itself requires.....testing

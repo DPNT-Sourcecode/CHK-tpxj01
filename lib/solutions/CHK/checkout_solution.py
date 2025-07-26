@@ -60,7 +60,7 @@ class OtherItemFreeOffer(Offer):
         if basket.get(self.item.sku) and basket.get(self.free_item.sku):
             if self.item.sku == self.free_item.sku:
                 return basket[self.item.sku] >= self.quantity + 1
-            return basket[self.item.sku] >= 2 and basket[self.free_item.sku] >= 1
+            return basket[self.item.sku] >= self.quantity and basket[self.free_item.sku] >= 1
         return False
 
     def apply(self, basket) -> int:
@@ -212,3 +212,4 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
