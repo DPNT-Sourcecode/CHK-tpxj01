@@ -17,21 +17,39 @@ class Offer:
     def __init__(self, item: Item):
         self.item = item
 
-    def apply_to(self, basket) -> int:
+    def get_sku(self):
+        return self.item.sku
+
+    def get_discount(self, basket) -> int:
+        raise NotImplementedError
+
+    def applies_to(self, basket) -> bool:
         raise NotImplementedError
 
 class QuantityDiscountOffer(Offer):
 
-    def __init__(self, item: Item, quantity_prices: list[tuple[int, int]]):
+    def __init__(self, item: Item, quantity: int, price: int):
         super().__init__(item)
-        self.quantity_prices = quantity_prices
+        self.quantity = quantity
+        self.price = price
 
-    def apply_to(self, basket) -> int:
-        num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
-        # sku_total -= (discount * num_times_to_apply_discount)
-        # remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
+    # Alternative approach
 
+    # def apply_to(self, basket) -> int:
+    #         item_quantity = basket[self.item.sku]
+    #     remaining_quantity = item_quantity
+    #     for offer_quantity, offer_price in self.quantity_prices:
+    #         num_times_to_apply_discount = math.floor(remaining_quantity / offer_quantity)
+    #         # sku_total -= (discount * num_times_to_apply_discount)
+    #         # remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
+    #
+    #     return (self.item.price * self.quantity) - self.price
+
+    def get_discount(self, basket) -> int:
         return (self.item.price * self.quantity) - self.price
+
+    def applies_to(self, basket) -> bool:
+        return basket[self.item.sku] >= self.quantity
 
 
 class OtherItemFreeOffer(Offer):
@@ -40,8 +58,11 @@ class OtherItemFreeOffer(Offer):
         self.quantity = quantity
         self.free_item = free_item
 
-    def apply_to(self, basket) -> int:
-        return 0 # TODO
+    def get_discount(self, basket) -> int:
+        return self.free_item.price
+
+    def applies_to(self, basket) -> bool:
+        return basket[self.item.sku] >= 2 and basket[self.free_item.sku] >= 1
 
 
 class CheckoutSolution:
@@ -60,14 +81,11 @@ class CheckoutSolution:
         self.catalogue.add_item(d)
         self.catalogue.add_item(e)
 
-        self.offers = {}
-        self.offers[a.sku] = [QuantityDiscountOffer(
-            item=a,
-            quantity_prices=[
-                (5, 200),
-                (3, 130)]
-        )]
-        self.offers[b.sku] = [QuantityDiscountOffer(b, [(2, 45)])],
+        self.offers = sorted[
+            QuantityDiscountOffer(a, 5, 200)
+        ]
+        self.offers[a.sku] = [QuantityDiscountOffer(a, 5, 200), QuantityDiscountOffer(a, 3, 130)]
+        self.offers[b.sku] = [QuantityDiscountOffer(b, 2, 45)]
         self.offers[e.sku] = [OtherItemFreeOffer(e, 2, b)]
 
 
@@ -92,13 +110,23 @@ class CheckoutSolution:
             if self.offers.get(sku):
                 remaining_quantity = quantity
                 for offer in self.offers[sku]:
-                    discount = offer.apply_to(basket)
-
-                    # num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
-                    # sku_total -= (discount * num_times_to_apply_discount)
-                    # remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
+                    discount = offer.get_discount(basket)
+                    num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
+                    sku_total -= (discount * num_times_to_apply_discount)
+                    remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
 
             total += sku_total
 
+
+            # TODO sort offers by potential discount
+            # 5A for 200 = 50
+            # 2E get one B free = 30
+            # 3A for 130 = 20
+            # 2B for 45 = 15
+            # TODO Apply offer to basket, remove items to which offer has been applied
+            # TODO continue to apply offers to the rest of the basket
+            # e.g if you buy 2E and get one B free (discount = 30), you can't then get 2B for 45 (discount = 15)
+
         return total
+
 
