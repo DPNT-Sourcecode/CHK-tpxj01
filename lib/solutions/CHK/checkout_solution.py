@@ -17,17 +17,20 @@ class Offer:
     def __init__(self, item: Item):
         self.item = item
 
-    def get_discount(self, basket) -> int:
+    def apply_to(self, basket) -> int:
         raise NotImplementedError
 
 class QuantityDiscountOffer(Offer):
 
-    def __init__(self, item: Item, quantity: int, price: int):
+    def __init__(self, item: Item, quantity_prices: list[tuple[int, int]]):
         super().__init__(item)
-        self.quantity = quantity
-        self.price = price
+        self.quantity_prices = quantity_prices
 
-    def get_discount(self, basket) -> int:
+    def apply_to(self, basket) -> int:
+        num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
+        # sku_total -= (discount * num_times_to_apply_discount)
+        # remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
+
         return (self.item.price * self.quantity) - self.price
 
 
@@ -37,7 +40,7 @@ class OtherItemFreeOffer(Offer):
         self.quantity = quantity
         self.free_item = free_item
 
-    def get_discount(self, basket) -> int:
+    def apply_to(self, basket) -> int:
         return 0 # TODO
 
 
@@ -58,8 +61,13 @@ class CheckoutSolution:
         self.catalogue.add_item(e)
 
         self.offers = {}
-        self.offers[a.sku] = [QuantityDiscountOffer(a, 5, 200), QuantityDiscountOffer(a, 3, 130)]
-        self.offers[b.sku] = [QuantityDiscountOffer(b, 2, 45)]
+        self.offers[a.sku] = [QuantityDiscountOffer(
+            item=a,
+            quantity_prices=[
+                (5, 200),
+                (3, 130)]
+        )]
+        self.offers[b.sku] = [QuantityDiscountOffer(b, [(2, 45)])],
         self.offers[e.sku] = [OtherItemFreeOffer(e, 2, b)]
 
 
@@ -93,3 +101,4 @@ class CheckoutSolution:
             total += sku_total
 
         return total
+
