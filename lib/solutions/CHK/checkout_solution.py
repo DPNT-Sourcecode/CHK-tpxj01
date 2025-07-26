@@ -82,11 +82,12 @@ class CheckoutSolution:
         self.catalogue.add_item(e)
 
         self.offers = sorted([
-            QuantityDiscountOffer(a, 5, 200)],
+            QuantityDiscountOffer(a, 5, 200),
+            QuantityDiscountOffer(a, 3, 130),
+            QuantityDiscountOffer(b, 2, 45),
+            OtherItemFreeOffer(e, 2, b)
+            ],
         key=lambda offer: offer.get_discount())
-        self.offers[a.sku] = [QuantityDiscountOffer(a, 5, 200), QuantityDiscountOffer(a, 3, 130)]
-        self.offers[b.sku] = [QuantityDiscountOffer(b, 2, 45)]
-        self.offers[e.sku] = [OtherItemFreeOffer(e, 2, b)]
 
 
     # skus = unicode string
@@ -98,6 +99,13 @@ class CheckoutSolution:
             basket[sku] = basket.get(sku, 0) + 1
 
         total = 0
+
+        # TODO Apply offer to basket, remove items to which offer has been applied
+
+
+        # TODO continue to apply offers to the rest of the basket
+        # e.g if you buy 2E and get one B free (discount = 30), you can't then get 2B for 45 (discount = 15)
+
         for sku, quantity in basket.items():
             catalog_item = self.catalogue.items.get(sku)
             if not catalog_item:
@@ -106,28 +114,26 @@ class CheckoutSolution:
             item_price = catalog_item.price
             sku_total = item_price * quantity
 
-            # Apply any offers to this SKU by applying the discount
-            if self.offers.get(sku):
-                remaining_quantity = quantity
-                for offer in self.offers[sku]:
-                    discount = offer.get_discount(basket)
-                    num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
-                    sku_total -= (discount * num_times_to_apply_discount)
-                    remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
-
-            total += sku_total
-
+            # # Apply any offers to this SKU by applying the discount
+            # if self.offers.get(sku):
+            #     remaining_quantity = quantity
+            #     for offer in self.offers[sku]:
+            #         discount = offer.get_discount(basket)
+            #         num_times_to_apply_discount = math.floor(remaining_quantity / offer.quantity)
+            #         sku_total -= (discount * num_times_to_apply_discount)
+            #         remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
+            #
+            # total += sku_total
 
             # TODO sort offers by potential discount
             # 5A for 200 = 50
             # 2E get one B free = 30
             # 3A for 130 = 20
             # 2B for 45 = 15
-            # TODO Apply offer to basket, remove items to which offer has been applied
-            # TODO continue to apply offers to the rest of the basket
-            # e.g if you buy 2E and get one B free (discount = 30), you can't then get 2B for 45 (discount = 15)
+
 
         return total
+
 
 
 
