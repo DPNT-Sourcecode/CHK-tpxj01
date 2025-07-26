@@ -99,12 +99,16 @@ class MultipleItemQuantityDiscount(Offer):
         print(f"applying offer, items: {self.items}")
         applicable_basket_items = self.get_basket_items_used_in_offer(basket)
 
+        for applicable_item_sku, applicable_item_quantity in applicable_basket_items.items():
+            basket[applicable_item_sku] -= applicable_item_quantity
+
         # for item in self.items:
         #     if basket.get(item.sku):
         #         num_items_to_subtract = 0 # TODO
         #         print(f"Removing {num_items_to_subtract} of {item.sku} from basket")
         #         basket[item.sku] -= num_items_to_subtract
-        # return self.price
+
+        return self.price
 
     def get_basket_items_used_in_offer(self, basket):
         applicable_items = {}
