@@ -97,12 +97,22 @@ class MultipleItemQuantityDiscount(Offer):
 
     def apply(self, basket) -> int:
         print(f"applying offer, items: {self.items}")
+        applicable_basket_items = self.get_basket_items_used_in_offer(basket)
+
+        # for item in self.items:
+        #     if basket.get(item.sku):
+        #         num_items_to_subtract = 0 # TODO
+        #         print(f"Removing {num_items_to_subtract} of {item.sku} from basket")
+        #         basket[item.sku] -= num_items_to_subtract
+        # return self.price
+
+    def get_basket_items_used_in_offer(self, basket):
+        applicable_items = {}
         for item in self.items:
-            if basket.get(item.sku):
-                num_items_to_subtract = 0 # TODO
-                print(f"Removing {num_items_to_subtract} of {item.sku} from basket")
-                basket[item.sku] -= num_items_to_subtract
-        return self.price
+            if basket.get(item.sku) and sum(applicable_items.values()) <= self.quantity:
+                applicable_items[item.sku] = min(basket.get(item.sku), self.quantity)
+        print(f"applicable items in basket: {applicable_items}")
+        return applicable_items
 
 
 class OtherItemFreeOffer(Offer):
@@ -249,6 +259,7 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
 
