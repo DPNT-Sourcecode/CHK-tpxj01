@@ -75,11 +75,13 @@ class CheckoutSolution:
         c = Item("C", 20)
         d = Item("D", 15)
         e = Item("E", 40)
+        f = Item("F", 10)
         self.catalogue.add_item(a)
         self.catalogue.add_item(b)
         self.catalogue.add_item(c)
         self.catalogue.add_item(d)
         self.catalogue.add_item(e)
+        self.catalogue.add_item(f)
 
         # Sort offers by potential discount
         # 5A for 200 = 50

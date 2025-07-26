@@ -50,3 +50,9 @@ class TestCheckout:
         # 2E      + 2B
         # 40 + 40 + 45
         assert CheckoutSolution().checkout("EEBBB") == 125
+
+
+    def test_buy_two_f_get_one_f_free(self):
+        assert CheckoutSolution().checkout("F") == 10
+        assert CheckoutSolution().checkout("FF") == 20
+        assert CheckoutSolution().checkout("FFF") == 20
