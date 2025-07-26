@@ -26,6 +26,9 @@ class Offer:
     def applies_to(self, basket) -> bool:
         raise NotImplementedError
 
+    def apply(self, basket) -> bool:
+        raise NotImplementedError
+
 class QuantityDiscountOffer(Offer):
 
     def __init__(self, item: Item, quantity: int, price: int):
@@ -50,6 +53,11 @@ class QuantityDiscountOffer(Offer):
 
     def applies_to(self, basket) -> bool:
         return basket[self.item.sku] >= self.quantity
+
+    def apply(self, basket):
+        # discount = offer.get_discount(basket)
+        #         sku_total -= (discount * num_times_to_apply_discount)
+        #         remaining_quantity -= (num_times_to_apply_discount * offer.quantity)
 
 
 class OtherItemFreeOffer(Offer):
@@ -100,19 +108,22 @@ class CheckoutSolution:
 
         total = 0
 
-        # TODO Apply offer to basket, remove items to which offer has been applied
+        # Apply each offers to basket, removing items to which an offer has been applied
+        # This ensure we don't apply multiple offers using the same items
+        for offer in self.offers:
+            while offer.applies_to(basket):
+                total += offer.apply(basket) # updates basket in-place
 
+                # TODO continue to apply offers to the rest of the basket
+                # e.g if you buy 2E and get one B free (discount = 30), you can't then get 2B for 45 (discount = 15)
 
-        # TODO continue to apply offers to the rest of the basket
-        # e.g if you buy 2E and get one B free (discount = 30), you can't then get 2B for 45 (discount = 15)
-
+        # Now simply total up the remaining items in the basket
         for sku, quantity in basket.items():
             catalog_item = self.catalogue.items.get(sku)
             if not catalog_item:
                 return -1
 
-            item_price = catalog_item.price
-            sku_total = item_price * quantity
+            total += catalog_item.price * quantity
 
             # # Apply any offers to this SKU by applying the discount
             # if self.offers.get(sku):
@@ -133,7 +144,3 @@ class CheckoutSolution:
 
 
         return total
-
-
-
-
