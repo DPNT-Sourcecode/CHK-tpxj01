@@ -51,7 +51,7 @@ class QuantityDiscountOffer(Offer):
 
 class MultipleItemQuantityDiscount(Offer):
 
-    def __init__(self, items: list(Item), quantity: int, price: int):
+    def __init__(self, items: list[Item], quantity: int, price: int):
         self.items = items
         self.quantity = quantity
         self.price = price
@@ -63,8 +63,8 @@ class MultipleItemQuantityDiscount(Offer):
 
     def applies_to(self, basket) -> bool:
         applicable_items = []
-        for item in items:
-            
+        for item in self.items:
+            pass
 
     def apply(self, basket) -> int:
         basket[self.item.sku] -= self.quantity
@@ -236,6 +236,7 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
 
