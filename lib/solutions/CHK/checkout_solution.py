@@ -236,9 +236,3 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
-
-
-
-
-
-
