@@ -52,7 +52,7 @@ class QuantityDiscountOffer(Offer):
         return (self.item.price * self.quantity) - self.price
 
     def applies_to(self, basket) -> bool:
-        return basket.get(self.item.sku, 0) >= self.quantity
+        return basket.get(self.item.sku, -1) >= self.quantity
 
     def apply(self, basket) -> int:
         basket[self.item.sku] -= self.quantity
@@ -69,7 +69,7 @@ class OtherItemFreeOffer(Offer):
         return self.free_item.price
 
     def applies_to(self, basket) -> bool:
-        return basket.get(self.item.sku, 0) >= 2 and basket.get(self.free_item.sku, 0) >= 1
+        return basket.get(self.item.sku, -1) >= 2 and basket.get(self.free_item.sku, -1) >= 1
 
     def apply(self, basket) -> int:
         basket[self.item.sku] -= self.quantity
@@ -121,6 +121,7 @@ class CheckoutSolution:
         # This ensure we don't apply multiple offers using the same items
         for offer in self.offers:
             while offer.applies_to(basket):
+                print(f"Applying offer to {offer.item.sku}")
                 total += offer.apply(basket) # updates basket in-place
 
         # Now simply total up the remaining items in the basket
@@ -146,5 +147,6 @@ class CheckoutSolution:
 
 
         return total
+
 
 
