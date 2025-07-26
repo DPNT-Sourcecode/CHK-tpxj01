@@ -71,6 +71,7 @@ class MultipleItemQuantityDiscount(Offer):
                     spaces_left = self.quantity - len(items_to_use)
                     print(f"{spaces_left} spaces left")
                     num_items_to_append = min(basket[item.sku], spaces_left)
+                    print(f"appending {num_items_to_append} items")
                     for _ in range(num_items_to_append):
                         items_to_use.append(item)
 
@@ -236,5 +237,6 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
