@@ -83,15 +83,20 @@ class MultipleItemQuantityDiscount(Offer):
         # return discount
 
         # TODO finish the above to ensure that the solution would work if either S, T, X, Y or Z had another offer.
-        #  Because this offer is the only one that applies to any of them, we 
+        #  Because this offer is the only one that applies to any of them, we don't need this right now.
+
+        return self.items[0].price * self.quantity
 
     def applies_to(self, basket) -> bool:
         num_applicable_items = 0
         for item in self.items:
-            num_applicable_items += basket.get(item.sku, -1)
+            if basket.get(item.sku):
+                num_applicable_items += basket[item.sku]
+        print(f"checking if {num_applicable_items} > {self.quantity}")
         return num_applicable_items >= self.quantity
 
     def apply(self, basket) -> int:
+        print(f"applying offer")
         for item in self.items:
             basket[item.sku] -= self.quantity
         return self.price
@@ -241,8 +246,3 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
-
-
-
-
-
