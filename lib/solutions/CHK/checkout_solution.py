@@ -61,11 +61,15 @@ class MultipleItemQuantityDiscount(Offer):
         # return (self.item.price * self.quantity) - self.price
         # TODO select affected items in price order, highest price first, to determine what discount would be
         items_to_use = []
+        # Calculate discount using <quantity> highest-priced items in basket
         for item in self.items:
             if basket.get(item.sku):
                 while len(items_to_use) < self.quantity:
-                    # Calculate discount using <quantity> highest-priced items in basket
-                    items_to_use.append()
+                    spaces_left = self.quantity - len(items_to_use)
+                    num_items_to_append = min(basket[item.sku], spaces_left)
+                    for n in num_items_to_append:
+                        items_to_use.append(basket[item.sku])
+        # TODO finish
         pass
 
     def applies_to(self, basket) -> bool:
@@ -247,5 +251,6 @@ class CheckoutSolution:
             total += catalog_item.price * quantity
 
         return total
+
 
 
